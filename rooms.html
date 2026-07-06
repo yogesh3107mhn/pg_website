@@ -1,17 +1,3 @@
-Here is the **fully optimized, completely responsive `rooms.html`**. 
-
-I have applied the exact same responsive logic used on your `index.html`, `about.html`, and `gallery.html` pages. The layout now gracefully adapts to all screen sizes (Mobile, Tablet, Laptop, and Large Desktop) with proper scaling, readable typography, and consistent spacing.
-
-**Key Responsive Fixes Applied:**
-1. **Clamped Typography:** `font-size: clamp(...)` ensures text shrinks naturally on phones and grows on monitors without breaking lines.
-2. **Touch Targets:** Buttons have `min-height: 48px` and become full-width on extremely small phones for easy tapping.
-3. **Grid Behavior:** The "Rooms" grid now uses `col-md-6 col-lg-4`. This correctly displays as **1 column on mobile**, **2 columns on tablets**, and **3 columns on laptops/desktops**.
-4. **Spacing:** Padding on sections (`section`) is reduced on mobile (`50px`) to prevent the page from feeling too stretched out.
-5. **No Overlap:** Verified Back-to-Top (bottom-left) and Floating buttons (bottom-right) are perfectly separated on every device.
-
-Save this as your final **`rooms.html`**.
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,13 +28,18 @@ Save this as your final **`rooms.html`**.
             --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; width: 100%; overflow-x: hidden; }
         body {
             font-family: "Times New Roman", Times, serif;
             background-color: var(--cream); color: var(--text-dark);
-            line-height: 1.6; overflow-x: hidden;
+            line-height: 1.6; overflow-x: hidden; width: 100%;
+            -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
         }
+        /* Fluid container so content never forces horizontal scroll on very small/large screens */
+        .container { max-width: 1320px; }
+        @media (min-width: 1600px) { .container { max-width: 1440px; } }
+        img, svg, video { max-width: 100%; }
         a, button { cursor: pointer; text-decoration: none; color: inherit; transition: 0.3s var(--ease); }
         h1,h2,h3,h4,h5,h6 { font-family: "Times New Roman", Times, serif; font-weight: 700; color: var(--navy-deep); letter-spacing: 0.3px; }
         p { color: var(--text-muted); }
@@ -100,12 +91,13 @@ Save this as your final **`rooms.html`**.
         #backToTop:hover { background: var(--gold); color: var(--navy-deep); }
 
         @media (max-width: 575.98px) {
-            #backToTop { left: 15px; bottom: 15px; width: 40px; height: 40px; font-size: 0.8rem; }
+            #backToTop { left: 15px; bottom: calc(15px + env(safe-area-inset-bottom, 0px)); width: 40px; height: 40px; font-size: 0.8rem; }
         }
 
         .floating-actions { 
             position: fixed; right: 20px; bottom: 20px; 
             display: flex; flex-direction: column; gap: 14px; z-index: 999; 
+            padding-bottom: env(safe-area-inset-bottom, 0px);
         }
         .float-btn { 
             width: 50px; height: 50px; border-radius: 50%; 
@@ -117,7 +109,7 @@ Save this as your final **`rooms.html`**.
         .float-call { background: var(--navy-deep); }
 
         @media (max-width: 575.98px) {
-            .floating-actions { right: 15px; bottom: 15px; gap: 10px; }
+            .floating-actions { right: 15px; bottom: calc(15px + env(safe-area-inset-bottom, 0px)); gap: 10px; }
             .float-btn { width: 45px; height: 45px; font-size: 1.1rem; }
         }
 
@@ -176,14 +168,13 @@ Save this as your final **`rooms.html`**.
             background: linear-gradient(135deg, var(--navy-deep), var(--navy-soft));
             color: var(--text-light); text-align: center; position: relative; overflow: hidden;
         }
+        @media (max-width: 576px) { .page-hero { padding-top: 100px; padding-bottom: 40px; } }
+
         .page-hero h1 { color: #fff; font-size: clamp(2rem, 6vw, 3.5rem); margin-bottom: 10px; }
         .page-hero p { color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto; padding: 0 15px;}
         .page-hero .hero-shape { position: absolute; border-radius: 50%; background: rgba(201,162,75,0.2); filter: blur(50px); z-index: 1; }
         .page-hero .shape-3 { width: 200px; height: 200px; top: -80px; right: -80px; }
         .page-hero .shape-4 { width: 150px; height: 150px; bottom: -50px; left: -50px; }
-        @media (max-width: 576px) { 
-            .page-hero { padding-top: 100px; padding-bottom: 40px; } 
-        }
 
         /* ===== ROOM CARDS ===== */
         .room-card {
@@ -217,6 +208,68 @@ Save this as your final **`rooms.html`**.
 
         @media (max-width: 575.98px) {
             .site-footer { padding: 40px 0 20px; }
+        }
+
+        /* =========================================================
+           RESPONSIVE MEDIA QUERIES (Fine-tuning)
+           ========================================================= */
+        @media (max-width: 575.98px) {
+            .section { padding: 50px 0; }
+            .page-hero { padding-top: 100px; padding-bottom: 40px; }
+            .page-hero h1 { font-size: 2.2rem; }
+            .brand-logo { font-size: 1.2rem; }
+            .room-card { margin-bottom: 0; }
+            .cta-banner { padding: 40px 0; }
+        }
+
+        @media (min-width: 576px) and (max-width: 767.98px) {
+            .section { padding: 60px 0; }
+            .brand-logo { font-size: 1.2rem; }
+        }
+
+        @media (max-width: 991.98px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+        }
+
+        /* ===== EXTRA-SMALL PHONES (≤380px, e.g. small Android / iPhone SE) ===== */
+        @media (max-width: 380px) {
+            .page-hero h1 { font-size: 1.9rem; }
+            .page-hero p { font-size: 1rem; }
+            .brand-logo { font-size: 1rem; gap: 6px; }
+            .brand-logo .logo-mark { width: 30px; height: 30px; font-size: 0.75rem; }
+            .room-body { padding: 15px; }
+            .room-facilities { gap: 5px; }
+            .room-facilities span { font-size: 0.7rem; padding: 3px 10px; }
+        }
+
+        /* ===== SHORT / LANDSCAPE PHONES (limited viewport height) ===== */
+        @media (max-height: 480px) and (orientation: landscape) {
+            .page-hero { height: auto; min-height: 100vh; min-height: 100dvh; padding: 100px 0 40px; }
+        }
+
+        /* ===== TABLETS / iPAD (portrait, 768–991px) ===== */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .page-hero h1 { font-size: clamp(2.4rem, 5vw, 3.2rem); }
+        }
+
+        /* ===== LARGE LAPTOPS / DESKTOPS (≥1400px) ===== */
+        @media (min-width: 1400px) {
+            .page-hero h1 { font-size: clamp(3rem, 4.5vw, 5rem); }
+            .section-title { font-size: clamp(2.2rem, 3vw, 3rem); }
+        }
+
+        /* ===== TOUCH DEVICES: skip hover-only motion effects, keep tap feedback simple ===== */
+        @media (hover: none), (pointer: coarse) {
+            .why-card:hover, .room-card:hover, .facility-card:hover { transform: none; }
+            .btn-luxury:hover { transform: none; }
+        }
+
+        /* ===== REDUCED MOTION: respect user preference ===== */
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .hero-bg { animation: none; }
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
         }
     </style>
 </head>
@@ -411,7 +464,7 @@ Save this as your final **`rooms.html`**.
                     <h5>Contact</h5>
                     <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-envelope"></i> <span>info@thinkinghome.com</span></div>
                     <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-phone"></i> <span>+91 00000 00000</span></div>
-                    <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-location-dot"></i> <span>123 Main St, Your City</span></div>
+                    <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-location-dot"></i> <span>R6HG+V3H, Mammothiamman Street, Egattur, Tamil Nadu 603103</span></div>
                 </div>
                 <div class="col-md-4 col-lg-3">
                     <h5>Find Us</h5>
@@ -474,36 +527,55 @@ Save this as your final **`rooms.html`**.
             document.getElementById("drawerClose").addEventListener("click", toggleMenu);
             document.querySelectorAll(".mobile-drawer a").forEach(link => link.addEventListener("click", toggleMenu));
 
-            // Luxury Button Ripple & Magnetic Effect
+            // Only enable fine-pointer / hover-driven motion effects on devices that actually support them
+            // (mouse/trackpad laptops & desktops) — skip on phones/tablets to avoid stuck transforms after tap.
+            const supportsHoverMotion = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+            // Luxury Button Ripple (works everywhere, including touch) & Magnetic Effect (fine-pointer only)
             document.querySelectorAll(".btn-luxury").forEach(btn => {
                 btn.addEventListener("click", function (e) {
                     let rect = btn.getBoundingClientRect();
                     let ripple = document.createElement("span");
                     let size = Math.max(rect.width, rect.height);
-                    ripple.style.cssText = `position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);width:${size}px;height:${size}px;left:${e.clientX - rect.left - size/2}px;top:${e.clientY - rect.top - size/2}px;transform:scale(0);animation:rippleAnim 0.6s ease-out forwards;pointer-events:none;`;
+                    const originX = e.clientX ? e.clientX - rect.left : rect.width / 2;
+                    const originY = e.clientY ? e.clientY - rect.top : rect.height / 2;
+                    ripple.style.cssText = `position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);width:${size}px;height:${size}px;left:${originX - size/2}px;top:${originY - size/2}px;transform:scale(0);animation:rippleAnim 0.6s ease-out forwards;pointer-events:none;`;
                     btn.style.position = "relative"; btn.style.overflow = "hidden";
                     btn.appendChild(ripple);
                     setTimeout(() => ripple.remove(), 600);
                 });
-                btn.addEventListener("mousemove", function (e) {
-                    const rect = btn.getBoundingClientRect();
-                    const x = (e.clientX - rect.left - rect.width/2) * 0.15;
-                    const y = (e.clientY - rect.top - rect.height/2) * 0.15;
-                    btn.style.transform = `translate(${x}px, ${y}px)`;
-                });
-                btn.addEventListener("mouseleave", function () { btn.style.transform = ""; });
+
+                if (supportsHoverMotion) {
+                    btn.addEventListener("mousemove", function (e) {
+                        const rect = btn.getBoundingClientRect();
+                        const x = (e.clientX - rect.left - rect.width/2) * 0.15;
+                        const y = (e.clientY - rect.top - rect.height/2) * 0.15;
+                        btn.style.transform = `translate(${x}px, ${y}px)`;
+                    });
+                    btn.addEventListener("mouseleave", function () { btn.style.transform = ""; });
+                }
             });
 
-            // 3D Tilt Cards
-            document.querySelectorAll(".tilt-card").forEach(card => {
-                card.addEventListener("mousemove", function (e) {
-                    const rect = card.getBoundingClientRect();
-                    const x = (e.clientX - rect.left) / rect.width - 0.5;
-                    const y = (e.clientY - rect.top) / rect.height - 0.5;
-                    card.style.transform = `perspective(900px) rotateX(${-y * 12}deg) rotateY(${x * 12}deg) translateY(-6px)`;
+            // 3D Tilt Cards (fine-pointer only — prevents transforms getting "stuck" after a tap on touchscreens)
+            if (supportsHoverMotion) {
+                document.querySelectorAll(".tilt-card").forEach(card => {
+                    card.addEventListener("mousemove", function (e) {
+                        const rect = card.getBoundingClientRect();
+                        const x = (e.clientX - rect.left) / rect.width - 0.5;
+                        const y = (e.clientY - rect.top) / rect.height - 0.5;
+                        card.style.transform = `perspective(900px) rotateX(${-y * 12}deg) rotateY(${x * 12}deg) translateY(-6px)`;
+                    });
+                    card.addEventListener("mouseleave", function () { card.style.transform = ""; });
                 });
-                card.addEventListener("mouseleave", function () { card.style.transform = ""; });
-            });
+            }
+
+            // Keep hero height accurate on mobile browsers that resize their UI chrome on scroll
+            function setViewportHeightVar() {
+                document.documentElement.style.setProperty("--vh", `${window.innerHeight * 0.01}px`);
+            }
+            setViewportHeightVar();
+            window.addEventListener("resize", setViewportHeightVar);
+            window.addEventListener("orientationchange", setViewportHeightVar);
         });
     </script>
 </body>
