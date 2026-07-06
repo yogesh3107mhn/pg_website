@@ -42,11 +42,13 @@
 
         /* ===== SECTION UTILITIES ===== */
         .section { padding: 80px 0; position: relative; }
+        @media (max-width: 575.98px) { .section { padding: 50px 0; } }
+        
         .section-eyebrow {
             display: inline-block; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
             color: var(--gold); font-weight: 700; margin-bottom: 10px;
         }
-        .section-title { font-size: clamp(1.8rem, 5vw, 2.6rem); margin-bottom: 20px; }
+        .section-title { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 20px; }
         .section-divider { width: 70px; height: 3px; margin: 0 auto; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 4px; transition: width 1s var(--ease); }
         .section-divider.draw { width: 100px; }
 
@@ -94,6 +96,10 @@
         #backToTop i { transition: transform .3s var(--ease); }
         #backToTop:hover i { transform: translateY(-3px); }
 
+        @media (max-width: 575.98px) {
+            #backToTop { left: 15px; bottom: 15px; width: 40px; height: 40px; font-size: 0.8rem; }
+        }
+
         .floating-actions { 
             position: fixed; right: 20px; bottom: 20px; 
             display: flex; flex-direction: column; gap: 14px; z-index: 999; 
@@ -107,7 +113,12 @@
         .float-btn:hover { transform: scale(1.1); }
         .float-whatsapp { background: #25D366; }
         .float-call { background: var(--navy-deep); }
-        
+
+        @media (max-width: 575.98px) {
+            .floating-actions { right: 15px; bottom: 15px; gap: 10px; }
+            .float-btn { width: 45px; height: 45px; font-size: 1.1rem; }
+        }
+
         @keyframes floatPulse {
             0%, 100% { box-shadow: 0 0 0 0 rgba(201,162,75,0.35), var(--shadow-lift); }
             50% { box-shadow: 0 0 0 10px rgba(201,162,75,0), var(--shadow-lift); }
@@ -144,6 +155,12 @@
         .hamburger.active span:nth-child(2) { opacity: 0; }
         .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -9px); }
 
+        @media (max-width: 991.98px) {
+            .nav-links, .nav-actions .nav-call-btn { display: none; }
+            .hamburger { display: flex; }
+            .nav-actions { display: flex; align-items: center; gap: 15px; }
+        }
+
         /* Mobile Drawer */
         .mobile-drawer { 
             position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; 
@@ -163,6 +180,8 @@
             background: linear-gradient(135deg, var(--navy-deep), var(--navy-soft));
             color: var(--text-light); text-align: center; position: relative; overflow: hidden;
         }
+        @media (max-width: 576px) { .page-hero { padding-top: 100px; padding-bottom: 40px; } }
+
         .page-hero h1 { color: #fff; font-size: clamp(2rem, 6vw, 3.5rem); margin-bottom: 10px; }
         .page-hero p { color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto; padding: 0 15px;}
         .page-hero .hero-shape { position: absolute; border-radius: 50%; background: rgba(201,162,75,0.2); filter: blur(50px); z-index: 1; animation: heroShapeFloat 9s ease-in-out infinite; }
@@ -253,6 +272,10 @@
         .footer-social a { transition: transform .35s var(--ease), background .35s var(--ease); }
         .footer-social a:hover { transform: translateY(-4px); background: var(--gold) !important; color: var(--navy-deep) !important; }
 
+        @media (max-width: 575.98px) {
+            .site-footer { padding: 40px 0 20px; }
+        }
+
         /* =========================================================
            RESPONSIVE MEDIA QUERIES
            ========================================================= */
@@ -261,21 +284,12 @@
             .page-hero { padding-top: 100px; padding-bottom: 40px; }
             /* Turn off aspect ratio on tiny phones to ensure perfectly filled grid */
             .gallery-tall, .gallery-wide, .gallery-square { aspect-ratio: auto; height: 220px; width: 100%; }
-            #backToTop { left: 15px; bottom: 15px; width: 40px; height: 40px; font-size: 0.8rem; }
-            .floating-actions { right: 15px; bottom: 15px; gap: 10px; }
-            .float-btn { width: 45px; height: 45px; font-size: 1.1rem; }
             .lightbox-close { width: 40px; height: 40px; font-size: 1.2rem; top: 10px; right: 10px; }
         }
 
         @media (min-width: 576px) and (max-width: 767.98px) {
             .section { padding: 60px 0; }
             .brand-logo { font-size: 1.2rem; }
-        }
-
-        @media (max-width: 991.98px) {
-            .nav-links, .nav-actions .nav-call-btn { display: none; }
-            .hamburger { display: flex; }
-            .nav-actions { display: flex; align-items: center; gap: 15px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
