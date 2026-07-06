@@ -68,6 +68,18 @@
         .btn-outline-navy { background: transparent; color: var(--navy-deep); border-color: var(--navy-deep); }
         .btn-outline-navy:hover { background: var(--navy-deep); color: var(--text-light); transform: translateY(-3px); }
 
+        /* Button Glow Sweep */
+        .btn-luxury::before{
+            content: "";
+            position: absolute; top: 0; left: -75%; width: 50%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+            transform: skewX(-20deg); transition: left .6s var(--ease); pointer-events: none;
+        }
+        .btn-luxury:hover::before{ left: 130%; }
+
+        /* Ripple Keyframes */
+        @keyframes rippleAnim { to { transform: scale(2.6); opacity: 0; } }
+
         /* ===== UI ELEMENTS ===== */
         #scrollProgress { position: fixed; top: 0; left: 0; height: 4px; width: 0%; background: var(--gold); z-index: 1200; }
         
@@ -79,6 +91,8 @@
         }
         #backToTop.show { opacity: 1; visibility: visible; transform: translateY(0); }
         #backToTop:hover { background: var(--gold); color: var(--navy-deep); }
+        #backToTop i { transition: transform .3s var(--ease); }
+        #backToTop:hover i { transform: translateY(-3px); }
 
         .floating-actions { 
             position: fixed; right: 20px; bottom: 20px; 
@@ -88,10 +102,16 @@
             width: 50px; height: 50px; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
             font-size: 1.3rem; color: #fff; box-shadow: var(--shadow-lift); transition: transform .3s var(--ease); 
+            animation: floatPulse 3.2s ease-in-out infinite;
         }
         .float-btn:hover { transform: scale(1.1); }
         .float-whatsapp { background: #25D366; }
         .float-call { background: var(--navy-deep); }
+        
+        @keyframes floatPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(201,162,75,0.35), var(--shadow-lift); }
+            50% { box-shadow: 0 0 0 10px rgba(201,162,75,0), var(--shadow-lift); }
+        }
 
         /* ===== NAVBAR ===== */
         .navbar-glass {
@@ -103,7 +123,8 @@
         
         .brand-logo { font-size: 1.3rem; font-weight: 700; color: var(--navy-deep); display: flex; align-items: center; gap: 8px; }
         .brand-logo span { color: var(--gold); }
-        .brand-logo .logo-mark { width: 36px; height: 36px; border-radius: 50%; background: var(--navy-deep); color: var(--gold-light); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+        .brand-logo .logo-mark { width: 36px; height: 36px; border-radius: 50%; background: var(--navy-deep); color: var(--gold-light); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; transition: transform .4s var(--ease); }
+        .brand-logo:hover .logo-mark { transform: rotate(15deg) scale(1.1); }
 
         .nav-links { display: flex; align-items: center; gap: 20px; list-style: none; margin: 0; padding: 0; }
         .nav-links a { position: relative; font-weight: 600; font-size: 0.95rem; color: var(--text-dark); padding: 6px 0; }
@@ -144,23 +165,25 @@
         }
         .page-hero h1 { color: #fff; font-size: clamp(2rem, 6vw, 3.5rem); margin-bottom: 10px; }
         .page-hero p { color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto; padding: 0 15px;}
-        .page-hero .hero-shape { position: absolute; border-radius: 50%; background: rgba(201,162,75,0.2); filter: blur(50px); z-index: 1; }
+        .page-hero .hero-shape { position: absolute; border-radius: 50%; background: rgba(201,162,75,0.2); filter: blur(50px); z-index: 1; animation: heroShapeFloat 9s ease-in-out infinite; }
         .page-hero .shape-3 { width: 200px; height: 200px; top: -80px; right: -80px; }
-        .page-hero .shape-4 { width: 150px; height: 150px; bottom: -50px; left: -50px; }
+        .page-hero .shape-4 { width: 150px; height: 150px; bottom: -50px; left: -50px; animation-duration: 11s; animation-direction: reverse; }
+        @keyframes heroShapeFloat {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(16px, -18px); }
+        }
 
         /* ===== GALLERY GRID ===== */
         .gallery-item {
             position: relative; border-radius: var(--radius-md); overflow: hidden;
             box-shadow: var(--shadow-soft); display: block; height: 100%;
+            width: 100%;
         }
-        /* New Animation: Zoom & Tilt on hover */
         .gallery-item img {
             width: 100%; height: 100%; object-fit: cover; transition: all .6s var(--ease);
         }
-        .gallery-item:hover img {
-            transform: scale(1.08) rotate(1deg);
-        }
-        /* New Animation: Glass overlay on hover */
+        .gallery-item:hover img { transform: scale(1.08) rotate(1deg); }
+        
         .gallery-overlay {
             position: absolute; inset: 0; background: rgba(15,27,45,0.4); 
             display: flex; align-items: center; justify-content: center; 
@@ -168,12 +191,58 @@
             opacity: 0; transition: all .4s var(--ease); backdrop-filter: blur(2px);
         }
         .gallery-item:hover .gallery-overlay { opacity: 1; }
-        .gallery-overlay i { margin-right: 8px; color: var(--gold-light); }
+        .gallery-overlay i { margin-right: 8px; color: var(--gold-light); transition: transform .45s var(--ease); }
+        .gallery-item:hover .gallery-overlay i { transform: scale(1.3) rotate(12deg); }
+        
+        .gallery-item::after {
+            content: ""; position: absolute; inset: 0; border-radius: var(--radius-md);
+            border: 2px solid transparent; transition: border-color .5s var(--ease); pointer-events: none;
+        }
+        .gallery-item:hover::after { border-color: rgba(201,162,75,0.6); }
 
         /* Custom masonry-like heights for staggered layout */
         .gallery-tall { aspect-ratio: 4 / 5; }
         .gallery-wide { aspect-ratio: 16 / 9; }
         .gallery-square { aspect-ratio: 1 / 1; }
+
+        /* =========================================================
+           LIGHTBOX / POPUP STYLES
+           ========================================================= */
+        .lightbox-overlay {
+            position: fixed; inset: 0; background: rgba(15, 27, 45, 0.92);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.4s var(--ease);
+            backdrop-filter: blur(8px); padding: 20px;
+        }
+        .lightbox-overlay.active { opacity: 1; visibility: visible; }
+        
+        .lightbox-content {
+            max-width: 90vw; max-height: 85vh; position: relative;
+            transform: scale(0.85); transition: transform 0.4s var(--ease);
+            border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .lightbox-overlay.active .lightbox-content { transform: scale(1); }
+        
+        .lightbox-content img { width: 100%; height: 100%; object-fit: contain; max-height: 85vh; display: block; }
+        
+        .lightbox-close {
+            position: absolute; top: 15px; right: 15px; width: 45px; height: 45px;
+            border-radius: 50%; background: rgba(255,255,255,0.15); color: #fff; border: none;
+            font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
+            transition: all .3s var(--ease); cursor: pointer; backdrop-filter: blur(4px);
+        }
+        .lightbox-close:hover { background: #fff; color: var(--navy-deep); transform: rotate(90deg); }
+
+        /* ===== CTA BANNER ===== */
+        .cta-banner { position: relative; overflow: hidden; }
+        .cta-banner::before {
+            content: ""; position: absolute; inset: 0;
+            background: radial-gradient(circle at 20% 20%, rgba(201,162,75,0.18), transparent 45%),
+                        radial-gradient(circle at 80% 80%, rgba(201,162,75,0.12), transparent 45%);
+            animation: ctaGlow 8s ease-in-out infinite alternate; z-index: 0;
+        }
+        .cta-banner .container { position: relative; z-index: 1; }
+        @keyframes ctaGlow { 0% { opacity: .6; } 100% { opacity: 1; } }
 
         /* ===== FOOTER ===== */
         .site-footer { background: #0A1420; color: rgba(255,255,255,0.7); padding: 50px 0 20px; }
@@ -181,6 +250,8 @@
         .footer-contact-item { display: flex; gap: 10px; margin-bottom: 10px; }
         .footer-contact-item i { color: var(--gold); width: 20px; text-align: center; margin-top: 3px;}
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 30px; padding-top: 20px; text-align: center; font-size: 0.85rem; }
+        .footer-social a { transition: transform .35s var(--ease), background .35s var(--ease); }
+        .footer-social a:hover { transform: translateY(-4px); background: var(--gold) !important; color: var(--navy-deep) !important; }
 
         /* =========================================================
            RESPONSIVE MEDIA QUERIES
@@ -188,10 +259,12 @@
         @media (max-width: 575.98px) {
             .section { padding: 50px 0; }
             .page-hero { padding-top: 100px; padding-bottom: 40px; }
-            .gallery-tall, .gallery-wide, .gallery-square { aspect-ratio: auto; height: 250px; }
+            /* Turn off aspect ratio on tiny phones to ensure perfectly filled grid */
+            .gallery-tall, .gallery-wide, .gallery-square { aspect-ratio: auto; height: 220px; width: 100%; }
             #backToTop { left: 15px; bottom: 15px; width: 40px; height: 40px; font-size: 0.8rem; }
             .floating-actions { right: 15px; bottom: 15px; gap: 10px; }
             .float-btn { width: 45px; height: 45px; font-size: 1.1rem; }
+            .lightbox-close { width: 40px; height: 40px; font-size: 1.2rem; top: 10px; right: 10px; }
         }
 
         @media (min-width: 576px) and (max-width: 767.98px) {
@@ -203,6 +276,13 @@
             .nav-links, .nav-actions .nav-call-btn { display: none; }
             .hamburger { display: flex; }
             .nav-actions { display: flex; align-items: center; gap: 15px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.001ms !important; animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important; scroll-behavior: auto !important;
+            }
         }
     </style>
 </head>
@@ -223,12 +303,13 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="rooms.html">Rooms</a></li>
-                <li><a href="index.html#facilities">Facilities</a></li>
-                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="gallery.html" class="active">Gallery</a></li>
+                <li><a href="facilities.html">Facilities</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
 
             <div class="nav-actions">
-                <a href="index.html#contact" class="nav-call-btn"><i class="fa-solid fa-phone"></i> Book</a>
+                <a href="contact.html" class="nav-call-btn"><i class="fa-solid fa-phone"></i> Book</a>
                 <button class="hamburger" id="hamburgerBtn" aria-label="Menu"><span></span><span></span><span></span></button>
             </div>
         </div>
@@ -242,9 +323,10 @@
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="rooms.html">Rooms</a>
-        <a href="index.html#facilities">Facilities</a>
-        <a href="index.html#contact">Contact</a>
-        <a href="index.html#contact" class="drawer-call"><i class="fa-solid fa-phone"></i> Call Now</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="facilities.html">Facilities</a>
+        <a href="contact.html">Contact</a>
+        <a href="contact.html" class="drawer-call"><i class="fa-solid fa-phone"></i> Call Now</a>
     </div>
 
     <!-- ===== PAGE HERO ===== -->
@@ -264,64 +346,64 @@
             <!-- We use a staggered approach and different delays for a "cascade" effect -->
             <div class="row g-4">
                 
-                <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
-                    <a href="#" class="gallery-item gallery-tall tilt-card">
+                <div class="col-sm-6 col-lg-4 pb-3" data-aos="fade-up" data-aos-delay="0">
+                    <a href="#" onclick="openLightbox('image1.png'); return false;" class="gallery-item gallery-tall tilt-card">
                         <img src="image1.png" alt="Exterior View of Thinking Home">
                         <div class="gallery-overlay"><i class="fa-solid fa-expand"></i> View</div>
                     </a>
                 </div>
 
-                <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <a href="#" class="gallery-item gallery-square tilt-card">
+                <div class="col-sm-6 col-lg-4 pb-3" data-aos="fade-up" data-aos-delay="100">
+                    <a href="#" onclick="openLightbox('image2.png'); return false;" class="gallery-item gallery-square tilt-card">
                         <img src="image2.png" alt="Modern Building Architecture">
                         <div class="gallery-overlay"><i class="fa-solid fa-expand"></i> View</div>
                     </a>
                 </div>
 
-                <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                    <a href="#" class="gallery-item gallery-tall tilt-card">
+                <div class="col-sm-6 col-lg-4 pb-3" data-aos="fade-up" data-aos-delay="200">
+                    <a href="#" onclick="openLightbox('image3.png'); return false;" class="gallery-item gallery-tall tilt-card">
                         <img src="image3.png" alt="Room Interior Detail">
                         <div class="gallery-overlay"><i class="fa-solid fa-expand"></i> View</div>
                     </a>
                 </div>
 
-                <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-                    <a href="#" class="gallery-item gallery-wide tilt-card">
+                <div class="col-sm-6 col-lg-4 pb-3" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#" onclick="openLightbox('image4.png'); return false;" class="gallery-item gallery-wide tilt-card">
                         <img src="image4.png" alt="Comfortable Single Bedroom">
                         <div class="gallery-overlay"><i class="fa-solid fa-expand"></i> View</div>
                     </a>
                 </div>
 
-                <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
-                    <a href="#" class="gallery-item gallery-square tilt-card">
+                <div class="col-sm-6 col-lg-4 pb-3" data-aos="fade-up" data-aos-delay="400">
+                    <a href="#" onclick="openLightbox('image5.png'); return false;" class="gallery-item gallery-square tilt-card">
                         <img src="image5.png" alt="Double Sharing Room Setup">
                         <div class="gallery-overlay"><i class="fa-solid fa-expand"></i> View</div>
                     </a>
                 </div>
 
-                <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
-                    <a href="#" class="gallery-item gallery-tall tilt-card">
+                <div class="col-sm-6 col-lg-4 pb-3" data-aos="fade-up" data-aos-delay="500">
+                    <a href="#" onclick="openLightbox('image6.png'); return false;" class="gallery-item gallery-tall tilt-card">
                         <img src="image6.png" alt="Shared Room Space">
                         <div class="gallery-overlay"><i class="fa-solid fa-expand"></i> View</div>
                     </a>
                 </div>
 
-                <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="600">
-                    <a href="#" class="gallery-item gallery-wide tilt-card">
+                <div class="col-sm-6 col-lg-4 pb-3" data-aos="fade-up" data-aos-delay="600">
+                    <a href="#" onclick="openLightbox('image7.png'); return false;" class="gallery-item gallery-wide tilt-card">
                         <img src="image7.png" alt="Four Sharing Room">
                         <div class="gallery-overlay"><i class="fa-solid fa-expand"></i> View</div>
                     </a>
                 </div>
 
-                <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="700">
-                    <a href="#" class="gallery-item gallery-tall tilt-card">
+                <div class="col-sm-6 col-lg-4 pb-3" data-aos="fade-up" data-aos-delay="700">
+                    <a href="#" onclick="openLightbox('image8.png'); return false;" class="gallery-item gallery-tall tilt-card">
                         <img src="image8.png" alt="Happy Resident Review">
                         <div class="gallery-overlay"><i class="fa-solid fa-expand"></i> View</div>
                     </a>
                 </div>
 
-                <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="800">
-                    <a href="#" class="gallery-item gallery-square tilt-card">
+                <div class="col-sm-6 col-lg-4 pb-3" data-aos="fade-up" data-aos-delay="800">
+                    <a href="#" onclick="openLightbox('image9.png'); return false;" class="gallery-item gallery-square tilt-card">
                         <img src="image9.png" alt="Resident Lifestyle">
                         <div class="gallery-overlay"><i class="fa-solid fa-expand"></i> View</div>
                     </a>
@@ -338,7 +420,7 @@
             <p data-aos="fade-up" data-aos-delay="100" style="color: rgba(255,255,255,0.85); max-width: 500px; margin: 10px auto 30px;">Come experience the comfort for yourself. Schedule a tour today.</p>
             <div class="cta-buttons d-flex flex-column flex-sm-row align-items-center justify-content-center gap-3" data-aos="fade-up" data-aos-delay="200">
                 <a href="rooms.html" class="btn-luxury btn-gold" style="width: auto; max-width: 100%;"><i class="fa-solid fa-bed"></i> View Rooms</a>
-                <a href="index.html#contact" class="btn-luxury btn-outline-light" style="width: auto; max-width: 100%;"><i class="fa-brands fa-whatsapp"></i> Book Now</a>
+                <a href="contact.html" class="btn-luxury btn-outline-light" style="width: auto; max-width: 100%;"><i class="fa-brands fa-whatsapp"></i> Book Now</a>
             </div>
         </div>
     </section>
@@ -361,7 +443,9 @@
                     <a href="index.html" class="d-block mb-2" style="font-size: 0.95rem;">Home</a>
                     <a href="about.html" class="d-block mb-2" style="font-size: 0.95rem;">About</a>
                     <a href="rooms.html" class="d-block mb-2" style="font-size: 0.95rem;">Rooms</a>
-                    <a href="index.html#contact" class="d-block mb-2" style="font-size: 0.95rem;">Contact</a>
+                    <a href="gallery.html" class="d-block mb-2" style="font-size: 0.95rem;">Gallery</a>
+                    <a href="facilities.html" class="d-block mb-2" style="font-size: 0.95rem;">Facilities</a>
+                    <a href="contact.html" class="d-block mb-2" style="font-size: 0.95rem;">Contact</a>
                 </div>
                 <div class="col-md-4 col-lg-3 col-6">
                     <h5>Contact</h5>
@@ -382,9 +466,19 @@
     <!-- ===== FLOATING UI ===== -->
     <div class="floating-actions">
         <a href="https://wa.me/910000000000" class="float-btn float-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
-        <a href="index.html#contact" class="float-btn float-call"><i class="fa-solid fa-phone"></i></a>
+        <a href="contact.html" class="float-btn float-call"><i class="fa-solid fa-phone"></i></a>
     </div>
     <button id="backToTop" aria-label="Top"><i class="fa-solid fa-arrow-up"></i></button>
+
+    <!-- =========================================================
+         LIGHTBOX HTML STRUCTURE
+         ========================================================= -->
+    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightboxDirect()"><i class="fa-solid fa-xmark"></i></button>
+            <img id="lightboxImage" src="" alt="Full Size Gallery Image">
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -460,6 +554,60 @@
                 });
                 card.addEventListener("mouseleave", function () { card.style.transform = ""; });
             });
+
+            // Hero shape mouse-parallax
+            const pageHero = document.querySelector(".page-hero");
+            const heroShapes = document.querySelectorAll(".page-hero .hero-shape");
+            if (pageHero && heroShapes.length) {
+                pageHero.addEventListener("mousemove", function (e) {
+                    const rect = pageHero.getBoundingClientRect();
+                    const relX = (e.clientX - rect.left) / rect.width - 0.5;
+                    const relY = (e.clientY - rect.top) / rect.height - 0.5;
+                    heroShapes.forEach((shape, i) => {
+                        const depth = (i + 1) * 20;
+                        shape.style.transform = `translate(${relX * depth}px, ${relY * depth}px)`;
+                    });
+                });
+                pageHero.addEventListener("mouseleave", function () {
+                    heroShapes.forEach(shape => { shape.style.transform = ""; });
+                });
+            }
+
+            // Staggered reveal timing for gallery items
+            document.querySelectorAll(".gallery-item").forEach((item, index) => {
+                item.style.transitionDelay = (index % 6) * 40 + "ms";
+            });
+        });
+
+        /* =========================================================
+           LIGHTBOX JAVASCRIPT FUNCTIONS
+           ========================================================= */
+        function openLightbox(imageSrc) {
+            const overlay = document.getElementById("lightboxOverlay");
+            const img = document.getElementById("lightboxImage");
+            img.src = imageSrc;
+            overlay.classList.add("active");
+            document.body.style.overflow = "hidden"; // Prevent background scrolling
+        }
+
+        function closeLightbox(event) {
+            // Only close if the user clicks on the dark background, not the image itself
+            if (event.target === event.currentTarget) {
+                closeLightboxDirect();
+            }
+        }
+
+        function closeLightboxDirect() {
+            const overlay = document.getElementById("lightboxOverlay");
+            overlay.classList.remove("active");
+            document.body.style.overflow = ""; // Restore background scrolling
+        }
+
+        // Close lightbox if 'Escape' key is pressed
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") {
+                closeLightboxDirect();
+            }
         });
     </script>
 </body>
