@@ -28,16 +28,20 @@
             --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; width: 100%; overflow-x: hidden; }
         body {
             font-family: "Times New Roman", Times, serif;
             background-color: var(--cream); color: var(--text-dark);
-            line-height: 1.6; overflow-x: hidden;
+            line-height: 1.6; overflow-x: hidden; width: 100%;
+            -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
         }
+        /* Fluid container so content never forces horizontal scroll on very small/large screens */
+        .container { max-width: 1320px; }
+        @media (min-width: 1600px) { .container { max-width: 1440px; } }
+        img, svg, video { max-width: 100%; }
         a, button { cursor: pointer; text-decoration: none; color: inherit; transition: 0.3s var(--ease); }
-        h1,h3,h4,h5,h6 { font-family: "Times New Roman", Times, serif; font-weight: 700; color: var(--navy-deep); letter-spacing: 0.3px; }
-        h2{ font-family: "Times New Roman", Times, serif; font-weight: 700; color: var(--navy-light); letter-spacing: 0.3px; }
+        h1,h2,h3,h4,h5,h6 { font-family: "Times New Roman", Times, serif; font-weight: 700; color: var(--navy-deep); letter-spacing: 0.3px; }
         p { color: var(--text-muted); }
         img { max-width: 100%; height: auto; display: block; }
 
@@ -98,12 +102,13 @@
         #backToTop:hover i { transform: translateY(-3px); }
 
         @media (max-width: 575.98px) {
-            #backToTop { left: 15px; bottom: 15px; width: 40px; height: 40px; font-size: 0.8rem; }
+            #backToTop { left: 15px; bottom: calc(15px + env(safe-area-inset-bottom, 0px)); width: 40px; height: 40px; font-size: 0.8rem; }
         }
 
         .floating-actions { 
             position: fixed; right: 20px; bottom: 20px; 
             display: flex; flex-direction: column; gap: 14px; z-index: 999; 
+            padding-bottom: env(safe-area-inset-bottom, 0px);
         }
         .float-btn { 
             width: 50px; height: 50px; border-radius: 50%; 
@@ -116,7 +121,7 @@
         .float-call { background: var(--navy-deep); }
 
         @media (max-width: 575.98px) {
-            .floating-actions { right: 15px; bottom: 15px; gap: 10px; }
+            .floating-actions { right: 15px; bottom: calc(15px + env(safe-area-inset-bottom, 0px)); gap: 10px; }
             .float-btn { width: 45px; height: 45px; font-size: 1.1rem; }
         }
 
@@ -278,11 +283,13 @@
         }
 
         /* =========================================================
-           RESPONSIVE MEDIA QUERIES
+           RESPONSIVE MEDIA QUERIES (Fine-tuning)
            ========================================================= */
         @media (max-width: 575.98px) {
             .section { padding: 50px 0; }
             .page-hero { padding-top: 100px; padding-bottom: 40px; }
+            .page-hero h1 { font-size: 2.2rem; }
+            .brand-logo { font-size: 1.2rem; }
             /* Turn off aspect ratio on tiny phones to ensure perfectly filled grid */
             .gallery-tall, .gallery-wide, .gallery-square { aspect-ratio: auto; height: 220px; width: 100%; }
             .lightbox-close { width: 40px; height: 40px; font-size: 1.2rem; top: 10px; right: 10px; }
@@ -293,11 +300,49 @@
             .brand-logo { font-size: 1.2rem; }
         }
 
+        @media (max-width: 991.98px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+        }
+
+        /* ===== EXTRA-SMALL PHONES (≤380px, e.g. small Android / iPhone SE) ===== */
+        @media (max-width: 380px) {
+            .page-hero h1 { font-size: 1.9rem; }
+            .page-hero p { font-size: 1rem; }
+            .brand-logo { font-size: 1rem; gap: 6px; }
+            .brand-logo .logo-mark { width: 30px; height: 30px; font-size: 0.75rem; }
+            .gallery-tall, .gallery-wide, .gallery-square { height: 160px; }
+        }
+
+        /* ===== SHORT / LANDSCAPE PHONES (limited viewport height) ===== */
+        @media (max-height: 480px) and (orientation: landscape) {
+            .page-hero { height: auto; min-height: 100vh; min-height: 100dvh; padding: 100px 0 40px; }
+            .gallery-tall, .gallery-wide, .gallery-square { height: 150px; }
+        }
+
+        /* ===== TABLETS / iPAD (portrait, 768–991px) ===== */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .page-hero h1 { font-size: clamp(2.4rem, 5vw, 3.2rem); }
+        }
+
+        /* ===== LARGE LAPTOPS / DESKTOPS (≥1400px) ===== */
+        @media (min-width: 1400px) {
+            .page-hero h1 { font-size: clamp(3rem, 4.5vw, 5rem); }
+            .section-title { font-size: clamp(2.2rem, 3vw, 3rem); }
+        }
+
+        /* ===== TOUCH DEVICES: skip hover-only motion effects, keep tap feedback simple ===== */
+        @media (hover: none), (pointer: coarse) {
+            .gallery-item:hover img, .gallery-item:hover .gallery-overlay,
+            .btn-luxury:hover, .tilt-card:hover { transform: none; }
+            .gallery-item:hover::after { border-color: transparent; }
+        }
+
+        /* ===== REDUCED MOTION: respect user preference ===== */
         @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.001ms !important; animation-iteration-count: 1 !important;
-                transition-duration: 0.001ms !important; scroll-behavior: auto !important;
-            }
+            html { scroll-behavior: auto; }
+            .hero-bg { animation: none; }
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
         }
     </style>
 </head>
@@ -466,7 +511,7 @@
                     <h5>Contact</h5>
                     <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-envelope"></i> <span>info@thinkinghome.com</span></div>
                     <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-phone"></i> <span>+91 00000 00000</span></div>
-                    <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-location-dot"></i> <span>123 Main St, Your City</span></div>
+                    <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-location-dot"></i> <span>R6HG+V3H, Mammothiamman Street, Egattur, Tamil Nadu 603103</span></div>
                 </div>
                 <div class="col-md-4 col-lg-3">
                     <h5>Find Us</h5>
@@ -539,59 +584,78 @@
             document.getElementById("drawerClose").addEventListener("click", toggleMenu);
             document.querySelectorAll(".mobile-drawer a").forEach(link => link.addEventListener("click", toggleMenu));
 
-            // Luxury Button Ripple & Magnetic Effect
+            // Only enable fine-pointer / hover-driven motion effects on devices that actually support them
+            // (mouse/trackpad laptops & desktops) — skip on phones/tablets to avoid stuck transforms after tap.
+            const supportsHoverMotion = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+            // Luxury Button Ripple (works everywhere, including touch) & Magnetic Effect (fine-pointer only)
             document.querySelectorAll(".btn-luxury").forEach(btn => {
                 btn.addEventListener("click", function (e) {
                     let rect = btn.getBoundingClientRect();
                     let ripple = document.createElement("span");
                     let size = Math.max(rect.width, rect.height);
-                    ripple.style.cssText = `position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);width:${size}px;height:${size}px;left:${e.clientX - rect.left - size/2}px;top:${e.clientY - rect.top - size/2}px;transform:scale(0);animation:rippleAnim 0.6s ease-out forwards;pointer-events:none;`;
+                    const originX = e.clientX ? e.clientX - rect.left : rect.width / 2;
+                    const originY = e.clientY ? e.clientY - rect.top : rect.height / 2;
+                    ripple.style.cssText = `position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);width:${size}px;height:${size}px;left:${originX - size/2}px;top:${originY - size/2}px;transform:scale(0);animation:rippleAnim 0.6s ease-out forwards;pointer-events:none;`;
                     btn.style.position = "relative"; btn.style.overflow = "hidden";
                     btn.appendChild(ripple);
                     setTimeout(() => ripple.remove(), 600);
                 });
-                btn.addEventListener("mousemove", function (e) {
-                    const rect = btn.getBoundingClientRect();
-                    const x = (e.clientX - rect.left - rect.width/2) * 0.15;
-                    const y = (e.clientY - rect.top - rect.height/2) * 0.15;
-                    btn.style.transform = `translate(${x}px, ${y}px)`;
-                });
-                btn.addEventListener("mouseleave", function () { btn.style.transform = ""; });
-            });
 
-            // 3D Tilt Cards (Applied to Gallery Items)
-            document.querySelectorAll(".tilt-card").forEach(card => {
-                card.addEventListener("mousemove", function (e) {
-                    const rect = card.getBoundingClientRect();
-                    const x = (e.clientX - rect.left) / rect.width - 0.5;
-                    const y = (e.clientY - rect.top) / rect.height - 0.5;
-                    card.style.transform = `perspective(900px) rotateX(${-y * 12}deg) rotateY(${x * 12}deg) translateY(-6px)`;
-                });
-                card.addEventListener("mouseleave", function () { card.style.transform = ""; });
-            });
-
-            // Hero shape mouse-parallax
-            const pageHero = document.querySelector(".page-hero");
-            const heroShapes = document.querySelectorAll(".page-hero .hero-shape");
-            if (pageHero && heroShapes.length) {
-                pageHero.addEventListener("mousemove", function (e) {
-                    const rect = pageHero.getBoundingClientRect();
-                    const relX = (e.clientX - rect.left) / rect.width - 0.5;
-                    const relY = (e.clientY - rect.top) / rect.height - 0.5;
-                    heroShapes.forEach((shape, i) => {
-                        const depth = (i + 1) * 20;
-                        shape.style.transform = `translate(${relX * depth}px, ${relY * depth}px)`;
+                if (supportsHoverMotion) {
+                    btn.addEventListener("mousemove", function (e) {
+                        const rect = btn.getBoundingClientRect();
+                        const x = (e.clientX - rect.left - rect.width/2) * 0.15;
+                        const y = (e.clientY - rect.top - rect.height/2) * 0.15;
+                        btn.style.transform = `translate(${x}px, ${y}px)`;
                     });
+                    btn.addEventListener("mouseleave", function () { btn.style.transform = ""; });
+                }
+            });
+
+            // 3D Tilt Cards (fine-pointer only — prevents transforms getting "stuck" after a tap on touchscreens)
+            if (supportsHoverMotion) {
+                document.querySelectorAll(".tilt-card").forEach(card => {
+                    card.addEventListener("mousemove", function (e) {
+                        const rect = card.getBoundingClientRect();
+                        const x = (e.clientX - rect.left) / rect.width - 0.5;
+                        const y = (e.clientY - rect.top) / rect.height - 0.5;
+                        card.style.transform = `perspective(900px) rotateX(${-y * 12}deg) rotateY(${x * 12}deg) translateY(-6px)`;
+                    });
+                    card.addEventListener("mouseleave", function () { card.style.transform = ""; });
                 });
-                pageHero.addEventListener("mouseleave", function () {
-                    heroShapes.forEach(shape => { shape.style.transform = ""; });
-                });
+
+                // Hero shape mouse-parallax (fine-pointer only)
+                const pageHero = document.querySelector(".page-hero");
+                const heroShapes = document.querySelectorAll(".page-hero .hero-shape");
+                if (pageHero && heroShapes.length) {
+                    pageHero.addEventListener("mousemove", function (e) {
+                        const rect = pageHero.getBoundingClientRect();
+                        const relX = (e.clientX - rect.left) / rect.width - 0.5;
+                        const relY = (e.clientY - rect.top) / rect.height - 0.5;
+                        heroShapes.forEach((shape, i) => {
+                            const depth = (i + 1) * 20;
+                            shape.style.transform = `translate(${relX * depth}px, ${relY * depth}px)`;
+                        });
+                    });
+                    pageHero.addEventListener("mouseleave", function () {
+                        heroShapes.forEach(shape => { shape.style.transform = ""; });
+                    });
+                }
             }
 
             // Staggered reveal timing for gallery items
             document.querySelectorAll(".gallery-item").forEach((item, index) => {
                 item.style.transitionDelay = (index % 6) * 40 + "ms";
             });
+
+            // Keep hero height accurate on mobile browsers that resize their UI chrome on scroll
+            function setViewportHeightVar() {
+                document.documentElement.style.setProperty("--vh", `${window.innerHeight * 0.01}px`);
+            }
+            setViewportHeightVar();
+            window.addEventListener("resize", setViewportHeightVar);
+            window.addEventListener("orientationchange", setViewportHeightVar);
         });
 
         /* =========================================================
