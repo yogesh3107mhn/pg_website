@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <!-- CRUCIAL: Ensures proper scaling on all mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>About Us | Thinking Home</title>
-    <meta name="description" content="Learn about Thinking Home - A premium Men's PG offering comfortable rooms, modern amenities, and safety.">
+    <title>Rooms | Thinking Home</title>
+    <meta name="description" content="Explore premium room options at Thinking Home - Single, Double, Triple, and Four Sharing accommodations for students and professionals.">
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -52,6 +52,7 @@
         .section-title { font-size: clamp(1.8rem, 5vw, 2.6rem); margin-bottom: 20px; }
         .section-divider { width: 70px; height: 3px; margin: 0 auto; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 4px; transition: width 1s var(--ease); }
         .section-divider.draw { width: 100px; }
+        .section-subtitle { max-width: 620px; margin: 20px auto 0; color: var(--text-muted); }
 
         /* ===== LUXURY BUTTONS (Fully Responsive) ===== */
         .btn-luxury {
@@ -152,15 +153,25 @@
         .page-hero .shape-3 { width: 200px; height: 200px; top: -80px; right: -80px; }
         .page-hero .shape-4 { width: 150px; height: 150px; bottom: -50px; left: -50px; }
 
-        /* ===== CARDS ===== */
-        .story-img-wrap { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lift); }
-        .mission-card, .team-card {
-            background: var(--white); border-radius: var(--radius-lg); padding: 30px 25px; 
-            box-shadow: var(--shadow-soft); transition: all .4s var(--ease); height: 100%; text-align: center;
+        /* ===== ROOM CARDS ===== */
+        .room-card {
+            background: var(--white); border-radius: var(--radius-lg); overflow: hidden;
+            box-shadow: var(--shadow-soft); transition: all .4s var(--ease); height: 100%;
+            display: flex; flex-direction: column;
         }
-        .mission-card:hover, .team-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lift); }
-        .mission-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--navy-deep); color: var(--gold-light); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5rem; }
-        .team-card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px; border: 4px solid var(--pastel-gold); }
+        .room-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lift); }
+        .room-img { position: relative; height: 220px; overflow: hidden; flex-shrink: 0; }
+        .room-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease); }
+        .room-card:hover .room-img img { transform: scale(1.08); }
+        .room-tag {
+            position: absolute; top: 15px; left: 15px; background: var(--navy-deep); color: var(--gold-light);
+            padding: 6px 16px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;
+        }
+        .room-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .room-price { color: var(--gold); font-weight: 700; font-size: 1.25rem; margin-bottom: 4px; }
+        .room-price span { font-size: 0.85rem; color: var(--text-muted); font-weight: 400; }
+        .room-facilities { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 20px; }
+        .room-facilities span { font-size: 0.75rem; background: var(--pastel-blue); color: var(--navy); padding: 5px 14px; border-radius: 50px; font-weight: 500;}
         
         /* ===== FOOTER ===== */
         .site-footer { background: #0A1420; color: rgba(255,255,255,0.7); padding: 50px 0 20px; }
@@ -178,7 +189,7 @@
             .section { padding: 50px 0; }
             .page-hero { padding-top: 100px; padding-bottom: 40px; }
             .hero-buttons .btn-luxury { width: 100%; display: flex; }
-            .mission-card, .team-card { padding: 20px; }
+            .room-img { height: 180px; }
             #backToTop { left: 15px; bottom: 15px; width: 40px; height: 40px; font-size: 0.8rem; }
             .floating-actions { right: 15px; bottom: 15px; gap: 10px; }
             .float-btn { width: 45px; height: 45px; font-size: 1.1rem; }
@@ -213,8 +224,8 @@
 
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="about.html" class="active">About</a></li>
-                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="rooms.html" class="active">Rooms</a></li>
                 <li><a href="gallery.html">Gallery</a></li>
                 <li><a href="facilities.html">Facilities</a></li>
                 <li><a href="contact.html">Contact</a></li>
@@ -246,93 +257,107 @@
         <div class="hero-shape shape-3"></div>
         <div class="hero-shape shape-4"></div>
         <div class="container" data-aos="fade-up">
-            <div class="section-eyebrow" style="color: var(--gold-light);">Who We Are</div>
-            <h1>About Thinking Home</h1>
-            <p>Discover the story behind the most comfortable and secure PG experience for students and professionals.</p>
+            <div class="section-eyebrow" style="color: var(--gold-light);">Accommodation</div>
+            <h1>Choose Your Room</h1>
+            <p>Thoughtfully designed sharing options to match your comfort, privacy, and budget.</p>
         </div>
     </header>
 
-    <!-- ===== OUR STORY ===== -->
+    <!-- ===== ROOMS GRID ===== -->
     <section class="section">
         <div class="container">
-            <div class="row align-items-center g-4 g-lg-5">
-                <div class="col-lg-6" data-aos="fade-right">
-                    <div class="story-img-wrap">
-                        <img src="image2.png" alt="Thinking Home Story" style="width: 100%; height: auto;">
+            <div class="row g-4">
+                
+                <!-- Single Sharing -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="room-card tilt-card">
+                        <div class="room-img">
+                            <img src="image4.png" alt="Single Sharing Room">
+                            <span class="room-tag">Single Sharing</span>
+                        </div>
+                        <div class="room-body">
+                            <div class="room-price">₹9,500 <span>/ month</span></div>
+                            <p class="small mb-2">A private room designed for those who value personal space and quiet comfort. Includes attached bathroom.</p>
+                            <div class="room-facilities">
+                                <span>WiFi</span><span>AC</span><span>Attached Bath</span><span>Study Desk</span>
+                            </div>
+                            <a href="contact.html" class="btn-luxury btn-outline-navy w-100 justify-content-center mt-auto">Enquire Now</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6" data-aos="fade-left">
-                    <div class="section-eyebrow">Our Story</div>
-                    <h2 class="section-title">Built on Trust &amp; <span class="gradient-text">Comfort</span></h2>
-                    <p>Thinking Home was born out of a simple observation: students and working professionals often struggle to find a place that feels genuinely welcoming and safe. We decided to change that.</p>
-                    <p>We combined the warmth of a traditional home with the modern conveniences of a premium hotel. Every room is curated with care, and every service is designed to make your daily life effortless. From our 24/7 security to our freshly prepared meals, we ensure that you can focus entirely on your studies or career without ever worrying about where you live.</p>
-                    <div class="mt-3 mt-lg-4">
-                        <a href="rooms.html" class="btn-luxury btn-outline-navy">Explore Our Rooms <i class="fa-solid fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- ===== MISSION & VISION ===== -->
-    <section class="section section-alt">
-        <div class="container text-center">
-            <div class="section-eyebrow" data-aos="fade-up">Our Values</div>
-            <h2 class="section-title" data-aos="fade-up">Mission &amp; Vision</h2>
-            <div class="section-divider" data-aos="fade-up"></div>
+                <!-- Double Sharing -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="room-card tilt-card">
+                        <div class="room-img">
+                            <img src="image5.png" alt="Double Sharing Room">
+                            <span class="room-tag">Double Sharing</span>
+                        </div>
+                        <div class="room-body">
+                            <div class="room-price">₹7,500 <span>/ month</span></div>
+                            <p class="small mb-2">A well-balanced room shared between two residents. Features ample storage and individual wardrobes.</p>
+                            <div class="room-facilities">
+                                <span>WiFi</span><span>Wardrobe</span><span>Study Table</span><span>Fan</span>
+                            </div>
+                            <a href="contact.html" class="btn-luxury btn-outline-navy w-100 justify-content-center mt-auto">Enquire Now</a>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="row g-4 mt-3 mt-lg-4">
-                <div class="col-md-6" data-aos="fade-up" data-aos-delay="0">
-                    <div class="mission-card tilt-card">
-                        <div class="mission-icon"><i class="fa-solid fa-bullseye"></i></div>
-                        <h4>Our Mission</h4>
-                        <p>To provide a home-like, secure, and affordable living environment where students and professionals can thrive without the stress of managing daily chores. We are committed to maintaining the highest standards of cleanliness, safety, and community.</p>
+                <!-- Triple Sharing -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="room-card tilt-card">
+                        <div class="room-img">
+                            <img src="image6.png" alt="Triple Sharing Room">
+                            <span class="room-tag">Triple Sharing</span>
+                        </div>
+                        <div class="room-body">
+                            <div class="room-price">₹6,200 <span>/ month</span></div>
+                            <p class="small mb-2">A spacious room for three residents, perfect for students who enjoy company and shared living.</p>
+                            <div class="room-facilities">
+                                <span>WiFi</span><span>Locker</span><span>Fan</span><span>Common Bath</span>
+                            </div>
+                            <a href="contact.html" class="btn-luxury btn-outline-navy w-100 justify-content-center mt-auto">Enquire Now</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="mission-card tilt-card">
-                        <div class="mission-icon"><i class="fa-solid fa-eye"></i></div>
-                        <h4>Our Vision</h4>
-                        <p>To set the gold standard for men's PG accommodations across the city. We envision expanding our presence to build a network of highly trusted, premium living spaces that redefine what it means to live away from home.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- ===== MEET THE TEAM ===== -->
-    <section class="section">
-        <div class="container text-center">
-            <div class="section-eyebrow" data-aos="fade-up">The People Behind It</div>
-            <h2 class="section-title" data-aos="fade-up">Our Dedicated Team</h2>
-            <div class="section-divider" data-aos="fade-up"></div>
-            <p class="section-subtitle" data-aos="fade-up" style="max-width: 620px; margin: 20px auto 0; color: var(--text-muted);">A group of passionate individuals committed to your comfort and safety.</p>
+                <!-- Four Sharing -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="room-card tilt-card">
+                        <div class="room-img">
+                            <img src="image7.png" alt="Four Sharing Room">
+                            <span class="room-tag">Four Sharing</span>
+                        </div>
+                        <div class="room-body">
+                            <div class="room-price">₹5,200 <span>/ month</span></div>
+                            <p class="small mb-2">Our most affordable option, ideal for budget-conscious students looking for a safe and clean environment.</p>
+                            <div class="room-facilities">
+                                <span>WiFi</span><span>Storage</span><span>Fan</span><span>Common Bath</span>
+                            </div>
+                            <a href="contact.html" class="btn-luxury btn-outline-navy w-100 justify-content-center mt-auto">Enquire Now</a>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="row g-4 mt-3 mt-lg-4 justify-content-center">
-                <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
-                    <div class="team-card tilt-card">
-                        <img src="image11.png" alt="Team Member">
-                        <h4>Rahul Sharma</h4>
-                        <p class="small" style="color: var(--gold); font-weight: 600;">Founder &amp; Manager</p>
-                        <p style="font-size: 0.95rem;">With 10 years of experience in hospitality, Rahul ensures that Thinking Home operates with impeccable standards.</p>
+                <!-- Deluxe Suite (Bonus Highlighted Room) -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="room-card tilt-card" style="border: 2px solid var(--gold);">
+                        <div class="room-img">
+                            <img src="image8.png" alt="Deluxe Suite">
+                            <span class="room-tag" style="background: var(--gold); color: var(--navy-deep);">Best Seller</span>
+                        </div>
+                        <div class="room-body">
+                            <div class="room-price">₹12,000 <span>/ month</span></div>
+                            <p class="small mb-2">Premium single occupancy room with extra space, large window, mini-fridge, and premium furnishings.</p>
+                            <div class="room-facilities">
+                                <span>WiFi</span><span>AC</span><span>Attached Bath</span><span>Mini Fridge</span>
+                            </div>
+                            <a href="contact.html" class="btn-luxury btn-gold w-100 justify-content-center mt-auto">Enquire Now</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="team-card tilt-card">
-                        <img src="image9.png" alt="Team Member">
-                        <h4>Priya Mehta</h4>
-                        <p class="small" style="color: var(--gold); font-weight: 600;">Head of Operations</p>
-                        <p style="font-size: 0.95rem;">Priya manages our daily housekeeping, meal services, and staff scheduling to ensure a seamless living experience.</p>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="team-card tilt-card">
-                        <img src="image10.png" alt="Team Member">
-                        <h4>Arjun Nair</h4>
-                        <p class="small" style="color: var(--gold); font-weight: 600;">Security &amp; Maintenance</p>
-                        <p style="font-size: 0.95rem;">Arjun leads our 24/7 security and maintenance team, ensuring the property is always safe and well-maintained.</p>
-                    </div>
-                </div>
+
             </div>
         </div>
     </section>
@@ -340,8 +365,8 @@
     <!-- ===== CTA BANNER ===== -->
     <section class="cta-banner" id="contact" style="background: var(--navy-deep); padding: 60px 0; text-align: center; color: #fff;">
         <div class="container">
-            <h2 data-aos="fade-up" style="font-size: clamp(1.8rem, 4vw, 2.5rem);">Ready to Make Thinking Home Your Home?</h2>
-            <p data-aos="fade-up" data-aos-delay="100" style="color: rgba(255,255,255,0.85); max-width: 500px; margin: 10px auto 30px;">Experience premium living today. Check availability and book your room.</p>
+            <h2 data-aos="fade-up" style="font-size: clamp(1.8rem, 4vw, 2.5rem);">Ready to Book Your Stay?</h2>
+            <p data-aos="fade-up" data-aos-delay="100" style="color: rgba(255,255,255,0.85); max-width: 500px; margin: 10px auto 30px;">Contact us today to check real-time availability and secure your room.</p>
             <div class="cta-buttons d-flex flex-column flex-sm-row align-items-center justify-content-center gap-3" data-aos="fade-up" data-aos-delay="200">
                 <a href="contact.html" class="btn-luxury btn-gold" style="width: auto; max-width: 100%;"><i class="fa-solid fa-phone"></i> Call Now</a>
                 <a href="https://wa.me/910000000000" target="_blank" class="btn-luxury btn-outline-light" style="width: auto; max-width: 100%;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
