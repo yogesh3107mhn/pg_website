@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Facilities | Thinking Home</title>
+    <meta name="description" content="Discover the premium facilities at Thinking Home. From high-speed WiFi and 24/7 security to dining and housekeeping, experience modern comfort.">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- AOS (Animate On Scroll) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css">
+
+    <style>
+        /* =========================================================
+           THINKING HOME - FULLY RESPONSIVE STYLES
+           ========================================================= */
+        :root {
+            --cream: #FBF8F2; --pastel-blue: #E7EEF6; --pastel-gold: #F6EFE0; --white: #FFFFFF;
+            --navy-deep: #0F1B2D; --navy: #16243B; --navy-soft: #1F3350;
+            --gold: #C9A24B; --gold-light: #E4C97A;
+            --text-dark: #23282F; --text-muted: #5B6472; --text-light: #F4F1E8;
+            --shadow-soft: 0 10px 30px rgba(15, 27, 45, 0.08);
+            --shadow-lift: 0 20px 45px rgba(15, 27, 45, 0.18);
+            --radius-lg: 22px; --radius-md: 14px; --radius-sm: 8px;
+            --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: "Times New Roman", Times, serif;
+            background-color: var(--cream); color: var(--text-dark);
+            line-height: 1.6; overflow-x: hidden;
+        }
+        a, button { cursor: pointer; text-decoration: none; color: inherit; transition: 0.3s var(--ease); }
+        h1,h2,h3,h4,h5,h6 { font-family: "Times New Roman", Times, serif; font-weight: 700; color: var(--navy-deep); letter-spacing: 0.3px; }
+        p { color: var(--text-muted); }
+        img { max-width: 100%; height: auto; display: block; }
+
+        /* ===== SECTION UTILITIES ===== */
+        .section { padding: 80px 0; position: relative; }
+        .section-alt { background: var(--pastel-blue); }
+        .section-gold { background: var(--pastel-gold); }
+        .section-eyebrow {
+            display: inline-block; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--gold); font-weight: 700; margin-bottom: 10px;
+        }
+        .section-title { font-size: clamp(1.8rem, 5vw, 2.6rem); margin-bottom: 20px; }
+        .section-divider { width: 70px; height: 3px; margin: 0 auto; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 4px; transition: width 1s var(--ease); }
+        .section-divider.draw { width: 100px; }
+
+        /* ===== LUXURY BUTTONS (Fully Responsive) ===== */
+        .btn-luxury {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px; 
+            padding: 12px 24px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; 
+            border: 1px solid transparent; transition: all 0.4s var(--ease); position: relative; overflow: hidden;
+            text-align: center; min-height: 48px; width: auto;
+        }
+        @media (max-width: 576px) {
+            .btn-luxury { width: 100%; font-size: 0.9rem; padding: 14px 20px; }
+        }
+        
+        .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--navy-deep); box-shadow: 0 8px 20px rgba(201,162,75,0.35); }
+        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(201,162,75,0.5); color: var(--navy-deep); }
+        .btn-outline-light { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.6); }
+        .btn-outline-light:hover { background: rgba(255,255,255,0.12); border-color: var(--white); transform: translateY(-3px); color: var(--white); }
+        .btn-outline-navy { background: transparent; color: var(--navy-deep); border-color: var(--navy-deep); }
+        .btn-outline-navy:hover { background: var(--navy-deep); color: var(--text-light); transform: translateY(-3px); }
+
+        /* ===== UI ELEMENTS ===== */
+        #scrollProgress { position: fixed; top: 0; left: 0; height: 4px; width: 0%; background: var(--gold); z-index: 1200; }
+        
+        #backToTop {
+            position: fixed; left: 20px; bottom: 20px; width: 46px; height: 46px; border-radius: 50%;
+            background: var(--navy-deep); color: var(--gold-light); border: none; box-shadow: var(--shadow-soft);
+            opacity: 0; visibility: hidden; transform: translateY(15px); transition: all .4s var(--ease); z-index: 999;
+            display: flex; align-items: center; justify-content: center;
+        }
+        #backToTop.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        #backToTop:hover { background: var(--gold); color: var(--navy-deep); }
+
+        .floating-actions { 
+            position: fixed; right: 20px; bottom: 20px; 
+            display: flex; flex-direction: column; gap: 14px; z-index: 999; 
+        }
+        .float-btn { 
+            width: 50px; height: 50px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 1.3rem; color: #fff; box-shadow: var(--shadow-lift); transition: transform .3s var(--ease); 
+        }
+        .float-btn:hover { transform: scale(1.1); }
+        .float-whatsapp { background: #25D366; }
+        .float-call { background: var(--navy-deep); }
+
+        /* ===== NAVBAR ===== */
+        .navbar-glass {
+            position: fixed; top: 0; width: 100%; z-index: 1100; padding: 12px 0;
+            background: rgba(251,248,242,0.35); backdrop-filter: blur(6px);
+            transition: all .45s var(--ease); border-bottom: 1px solid transparent;
+        }
+        .navbar-glass.scrolled { background: rgba(251,248,242,0.95); box-shadow: var(--shadow-soft); border-color: rgba(201,162,75,0.15); }
+        
+        .brand-logo { font-size: 1.3rem; font-weight: 700; color: var(--navy-deep); display: flex; align-items: center; gap: 8px; }
+        .brand-logo span { color: var(--gold); }
+        .brand-logo .logo-mark { width: 36px; height: 36px; border-radius: 50%; background: var(--navy-deep); color: var(--gold-light); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+
+        .nav-links { display: flex; align-items: center; gap: 20px; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { position: relative; font-weight: 600; font-size: 0.95rem; color: var(--text-dark); padding: 6px 0; }
+        .nav-links a::after { content: ""; position: absolute; left: 0; bottom: -2px; width: 0%; height: 2px; background: var(--gold); transition: width .35s var(--ease); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        
+        .nav-call-btn {
+            padding: 8px 18px; border-radius: 50px; background: var(--navy-deep); color: var(--text-light) !important;
+            font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .nav-call-btn:hover { background: var(--gold); color: var(--navy-deep) !important; transform: translateY(-2px); }
+
+        /* Mobile Hamburger */
+        .hamburger { width: 30px; height: 22px; display: none; flex-direction: column; justify-content: space-between; background: none; border: none; padding: 0;}
+        .hamburger span { width: 100%; height: 2.5px; background: var(--navy-deep); transition: all .35s var(--ease); border-radius: 4px; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 9px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -9px); }
+
+        /* Mobile Drawer */
+        .mobile-drawer { 
+            position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; 
+            background: var(--navy-deep); z-index: 1150; padding: 60px 25px; 
+            transition: right .5s var(--ease); box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+        }
+        .mobile-drawer.open { right: 0; }
+        .mobile-drawer a { display: block; color: var(--text-light); font-weight: 600; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 1.05rem; }
+        .mobile-drawer .drawer-call { margin-top: 20px; background: var(--gold); color: var(--navy-deep) !important; text-align: center; border-radius: 50px; border: none; }
+        .drawer-overlay { position: fixed; inset: 0; background: rgba(15,27,45,0.6); z-index: 1140; opacity: 0; visibility: hidden; transition: all .4s var(--ease); }
+        .drawer-overlay.show { opacity: 1; visibility: visible; }
+        .drawer-close { position: absolute; top: 25px; right: 25px; background: none; border: none; color: #fff; font-size: 1.8rem; }
+        
+        /* ===== PAGE HERO ===== */
+        .page-hero {
+            padding-top: 120px; padding-bottom: 60px;
+            background: linear-gradient(135deg, var(--navy-deep), var(--navy-soft));
+            color: var(--text-light); text-align: center; position: relative; overflow: hidden;
+        }
+        .page-hero h1 { color: #fff; font-size: clamp(2rem, 6vw, 3.5rem); margin-bottom: 10px; }
+        .page-hero p { color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto; padding: 0 15px;}
+        .page-hero .hero-shape { position: absolute; border-radius: 50%; background: rgba(201,162,75,0.2); filter: blur(50px); z-index: 1; }
+        .page-hero .shape-3 { width: 200px; height: 200px; top: -80px; right: -80px; }
+        .page-hero .shape-4 { width: 150px; height: 150px; bottom: -50px; left: -50px; }
+
+        /* ===== FACILITY CARDS ===== */
+        .facility-card {
+            background: var(--white); border-radius: var(--radius-lg); padding: 40px 30px;
+            box-shadow: var(--shadow-soft); transition: all .4s var(--ease); height: 100%; text-align: center;
+            border: 1px solid transparent; position: relative; overflow: hidden;
+        }
+        .facility-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lift); border-color: var(--gold-light); }
+        .facility-icon {
+            width: 70px; height: 70px; border-radius: 50%; background: var(--navy-deep); color: var(--gold-light);
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 1.8rem; transition: all .4s var(--ease);
+        }
+        .facility-card:hover .facility-icon { background: var(--gold); color: var(--navy-deep); }
+        .facility-card h4 { font-size: 1.15rem; margin-bottom: 10px; }
+        .facility-card p { font-size: 0.95rem; margin: 0; }
+
+        /* ===== DINING / LOCATION CARDS ===== */
+        .extra-card {
+            background: var(--white); border-radius: var(--radius-lg); padding: 30px;
+            box-shadow: var(--shadow-soft); transition: all .4s var(--ease); height: 100%; display: flex; flex-direction: column;
+        }
+        .extra-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lift); }
+        .extra-card .img-wrap { border-radius: var(--radius-md); overflow: hidden; height: 200px; margin-bottom: 20px; }
+        .extra-card .img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+        .extra-card:hover .img-wrap img { transform: scale(1.05); }
+        
+        /* ===== FOOTER ===== */
+        .site-footer { background: #0A1420; color: rgba(255,255,255,0.7); padding: 50px 0 20px; }
+        .site-footer h5 { color: var(--gold); margin-bottom: 20px; font-size: 1.1rem;}
+        .footer-contact-item { display: flex; gap: 10px; margin-bottom: 10px; }
+        .footer-contact-item i { color: var(--gold); width: 20px; text-align: center; margin-top: 3px;}
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 30px; padding-top: 20px; text-align: center; font-size: 0.85rem; }
+
+        /* =========================================================
+           RESPONSIVE MEDIA QUERIES
+           ========================================================= */
+        @media (max-width: 575.98px) {
+            .section { padding: 50px 0; }
+            .page-hero { padding-top: 100px; padding-bottom: 40px; }
+            .hero-buttons .btn-luxury { width: 100%; display: flex; }
+            .facility-card { padding: 30px 20px; }
+            #backToTop { left: 15px; bottom: 15px; width: 40px; height: 40px; font-size: 0.8rem; }
+            .floating-actions { right: 15px; bottom: 15px; gap: 10px; }
+            .float-btn { width: 45px; height: 45px; font-size: 1.1rem; }
+        }
+
+        @media (min-width: 576px) and (max-width: 767.98px) {
+            .section { padding: 60px 0; }
+            .brand-logo { font-size: 1.2rem; }
+        }
+
+        @media (max-width: 991.98px) {
+            .nav-links, .nav-actions .nav-call-btn { display: none; }
+            .hamburger { display: flex; }
+            .nav-actions { display: flex; align-items: center; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== SCROLL PROGRESS ===== -->
+    <div id="scrollProgress"></div>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar-glass" id="mainNavbar">
+        <div class="container d-flex align-items-center justify-content-between">
+            <a href="index.html" class="brand-logo">
+                <span class="logo-mark"><i class="fa-solid fa-house-chimney-window"></i></span>
+                Thinking <span>Home</span>
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="facilities.html" class="active">Facilities</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="contact.html" class="nav-call-btn"><i class="fa-solid fa-phone"></i> Book</a>
+                <button class="hamburger" id="hamburgerBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Drawer -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <button class="drawer-close" id="drawerClose"><i class="fa-solid fa-xmark"></i></button>
+        <div class="drawer-brand" style="color:#fff; font-size:1.4rem; font-weight:700; margin-bottom:25px;">Thinking <span style="color:var(--gold);">Home</span></div>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="rooms.html">Rooms</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="facilities.html">Facilities</a>
+        <a href="contact.html">Contact</a>
+        <a href="contact.html" class="drawer-call"><i class="fa-solid fa-phone"></i> Call Now</a>
+    </div>
+
+    <!-- ===== PAGE HERO ===== -->
+    <header class="page-hero">
+        <div class="hero-shape shape-3"></div>
+        <div class="hero-shape shape-4"></div>
+        <div class="container" data-aos="fade-up">
+            <div class="section-eyebrow" style="color: var(--gold-light);">Modern Amenities</div>
+            <h1>Our Facilities</h1>
+            <p>Discover the premium amenities designed to make your stay comfortable, safe, and truly hassle-free.</p>
+        </div>
+    </header>
+
+    <!-- ===== FACILITIES GRID ===== -->
+    <section class="section section-alt">
+        <div class="container text-center">
+            <div class="section-eyebrow" data-aos="fade-up">What We Offer</div>
+            <h2 class="section-title" data-aos="fade-up">Everything You Need</h2>
+            <div class="section-divider" data-aos="fade-up"></div>
+
+            <div class="row g-4 mt-4">
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="facility-card tilt-card">
+                        <div class="facility-icon"><i class="fa-solid fa-wifi"></i></div>
+                        <h4>High-Speed WiFi</h4>
+                        <p>Stay connected with reliable, high-speed internet available in every corner of the property.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="facility-card tilt-card">
+                        <div class="facility-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h4>24/7 CCTV Security</h4>
+                        <p>Complete peace of mind with round-the-clock video surveillance and secure gated entry.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="facility-card tilt-card">
+                        <div class="facility-icon"><i class="fa-solid fa-broom"></i></div>
+                        <h4>Daily Housekeeping</h4>
+                        <p>Enjoy spotless rooms, fresh linens, and well-maintained common areas every single day.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="facility-card tilt-card">
+                        <div class="facility-icon"><i class="fa-solid fa-battery-full"></i></div>
+                        <h4>Power Backup</h4>
+                        <p>Uninterrupted living with full power backup, ensuring your study or work is never disrupted.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="facility-card tilt-card">
+                        <div class="facility-icon"><i class="fa-solid fa-shirt"></i></div>
+                        <h4>Laundry Services</h4>
+                        <p>Convenient on-site laundry facilities and wash services to keep your wardrobe fresh.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="facility-card tilt-card">
+                        <div class="facility-icon"><i class="fa-solid fa-droplet"></i></div>
+                        <h4>RO Water System</h4>
+                        <p>Access to pure, filtered drinking water 24/7, ensuring the health and well-being of all residents.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="facility-card tilt-card">
+                        <div class="facility-icon"><i class="fa-solid fa-square-parking"></i></div>
+                        <h4>Parking Space</h4>
+                        <p>Dedicated and secure parking area available for residents with two-wheelers or four-wheelers.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="700">
+                    <div class="facility-card tilt-card">
+                        <div class="facility-icon"><i class="fa-solid fa-fire-flame-simple"></i></div>
+                        <h4>Hot Water Supply</h4>
+                        <p>Uninterrupted hot water supply throughout the day, providing ultimate comfort during winters.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== DINING & SECURITY ===== -->
+    <section class="section">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="extra-card">
+                        <div class="img-wrap">
+                            <img src="image2.png" alt="Dining Area at Thinking Home">
+                        </div>
+                        <h3>Hygienic Dining Area</h3>
+                        <p class="mb-3">We believe that good food is the heart of a happy home. Our dedicated dining area serves freshly prepared, home-style meals in a clean and welcoming environment. Residents can enjoy healthy breakfast, lunch, and dinner without the stress of cooking.</p>
+                        <a href="contact.html" class="btn-luxury btn-outline-navy mt-auto align-self-start">Enquire About Meals <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="extra-card">
+                        <div class="img-wrap">
+                            <img src="image1.png" alt="Secure Entrance at Thinking Home">
+                        </div>
+                        <h3>Total Security System</h3>
+                        <p class="mb-3">Your safety is our absolute priority. The property is monitored 24/7 through a comprehensive CCTV network. We also maintain strict visitor entry logs and have a dedicated security guard on duty, ensuring that you and your belongings are completely safe at all times.</p>
+                        <a href="contact.html" class="btn-luxury btn-outline-navy mt-auto align-self-start">Get Safety Details <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== LOCATION ADVANTAGE ===== -->
+    <section class="section section-gold">
+        <div class="container text-center">
+            <div class="section-eyebrow" data-aos="fade-up">Prime Location</div>
+            <h2 class="section-title" data-aos="fade-up">Everything Close To You</h2>
+            <div class="section-divider" data-aos="fade-up"></div>
+            <p class="section-subtitle" data-aos="fade-up">Our location places you right in the middle of convenience, saving you precious time every day.</p>
+
+            <div class="row g-4 mt-4 justify-content-center">
+                <div class="col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="0">
+                    <div class="facility-card tilt-card" style="padding: 30px 20px;">
+                        <div class="facility-icon" style="width: 60px; height: 60px; font-size: 1.5rem;"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <p class="mb-0 fw-bold" style="color: var(--navy-deep);">Colleges</p>
+                        <small>~1.2 km</small>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="100">
+                    <div class="facility-card tilt-card" style="padding: 30px 20px;">
+                        <div class="facility-icon" style="width: 60px; height: 60px; font-size: 1.5rem;"><i class="fa-solid fa-building"></i></div>
+                        <p class="mb-0 fw-bold" style="color: var(--navy-deep);">IT Parks</p>
+                        <small>~3.5 km</small>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="200">
+                    <div class="facility-card tilt-card" style="padding: 30px 20px;">
+                        <div class="facility-icon" style="width: 60px; height: 60px; font-size: 1.5rem;"><i class="fa-solid fa-bus"></i></div>
+                        <p class="mb-0 fw-bold" style="color: var(--navy-deep);">Bus Stand</p>
+                        <small>~0.8 km</small>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="300">
+                    <div class="facility-card tilt-card" style="padding: 30px 20px;">
+                        <div class="facility-icon" style="width: 60px; height: 60px; font-size: 1.5rem;"><i class="fa-solid fa-train"></i></div>
+                        <p class="mb-0 fw-bold" style="color: var(--navy-deep);">Railway Station</p>
+                        <small>~4.0 km</small>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2" data-aos="fade-up" data-aos-delay="400">
+                    <div class="facility-card tilt-card" style="padding: 30px 20px;">
+                        <div class="facility-icon" style="width: 60px; height: 60px; font-size: 1.5rem;"><i class="fa-solid fa-hospital"></i></div>
+                        <p class="mb-0 fw-bold" style="color: var(--navy-deep);">Hospital</p>
+                        <small>~1.5 km</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA BANNER ===== -->
+    <section class="cta-banner" style="background: var(--navy-deep); padding: 60px 0; text-align: center; color: #fff;">
+        <div class="container">
+            <h2 data-aos="fade-up" style="font-size: clamp(1.8rem, 4vw, 2.5rem);">Ready to Experience the Comfort?</h2>
+            <p data-aos="fade-up" data-aos-delay="100" style="color: rgba(255,255,255,0.85); max-width: 500px; margin: 10px auto 30px;">Contact us today to schedule a facility tour and see why Thinking Home is the right choice.</p>
+            <div class="cta-buttons d-flex flex-column flex-sm-row align-items-center justify-content-center gap-3" data-aos="fade-up" data-aos-delay="200">
+                <a href="contact.html" class="btn-luxury btn-gold" style="width: auto; max-width: 100%;"><i class="fa-solid fa-phone"></i> Call Now</a>
+                <a href="https://wa.me/910000000000" target="_blank" class="btn-luxury btn-outline-light" style="width: auto; max-width: 100%;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="footer-brand" style="font-size: 1.4rem; font-weight: 700; color: var(--white); margin-bottom: 15px;">Thinking <span style="color: var(--gold);">Home</span></div>
+                    <p style="font-size: 0.95rem;">Premium PG dedicated to comfort, safety, and affordability.</p>
+                    <div class="footer-social d-flex gap-3 mt-3">
+                        <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.08); color: #fff;"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.08); color: #fff;"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://wa.me/910000000000" style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.08); color: #fff;"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2 col-6">
+                    <h5>Links</h5>
+                    <a href="index.html" class="d-block mb-2" style="font-size: 0.95rem;">Home</a>
+                    <a href="about.html" class="d-block mb-2" style="font-size: 0.95rem;">About</a>
+                    <a href="rooms.html" class="d-block mb-2" style="font-size: 0.95rem;">Rooms</a>
+                    <a href="gallery.html" class="d-block mb-2" style="font-size: 0.95rem;">Gallery</a>
+                    <a href="facilities.html" class="d-block mb-2" style="font-size: 0.95rem;">Facilities</a>
+                    <a href="contact.html" class="d-block mb-2" style="font-size: 0.95rem;">Contact</a>
+                </div>
+                <div class="col-md-4 col-lg-3 col-6">
+                    <h5>Contact</h5>
+                    <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-envelope"></i> <span>info@thinkinghome.com</span></div>
+                    <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-phone"></i> <span>+91 00000 00000</span></div>
+                    <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-location-dot"></i> <span>123 Main St, Your City</span></div>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <h5>Find Us</h5>
+                    <p style="font-size: 0.95rem;">Get directions on Google Maps.</p>
+                    <a href="https://maps.google.com" target="_blank" class="btn-luxury btn-outline-light" style="font-size: 0.85rem; padding: 10px 20px; min-height: 40px;"><i class="fa-solid fa-map-location-dot"></i> Map</a>
+                </div>
+            </div>
+            <div class="footer-bottom" style="font-size: 0.8rem;">&copy; 2026 Thinking Home. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+    <!-- ===== FLOATING UI ===== -->
+    <div class="floating-actions">
+        <a href="https://wa.me/910000000000" class="float-btn float-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="contact.html" class="float-btn float-call"><i class="fa-solid fa-phone"></i></a>
+    </div>
+    <button id="backToTop" aria-label="Top"><i class="fa-solid fa-arrow-up"></i></button>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Initialize AOS
+            AOS.init({ duration: 900, easing: "ease-out-cubic", once: true, offset: 80 });
+
+            // Navbar & Scroll Progress & Back-to-Top
+            const navbar = document.getElementById("mainNavbar");
+            const scrollProgress = document.getElementById("scrollProgress");
+            const backToTop = document.getElementById("backToTop");
+
+            window.addEventListener("scroll", function () {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+
+                scrollProgress.style.width = progress + "%";
+                navbar.classList.toggle("scrolled", scrollTop > 50);
+                backToTop.classList.toggle("show", scrollTop > 500);
+            });
+
+            backToTop.addEventListener("click", function () {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+
+            // Mobile Menu
+            const hamburger = document.getElementById("hamburgerBtn");
+            const drawer = document.getElementById("mobileDrawer");
+            const overlay = document.getElementById("drawerOverlay");
+            
+            function toggleMenu() {
+                hamburger.classList.toggle("active");
+                drawer.classList.toggle("open");
+                overlay.classList.toggle("show");
+                document.body.style.overflow = drawer.classList.contains("open") ? "hidden" : "";
+            }
+            
+            hamburger.addEventListener("click", toggleMenu);
+            overlay.addEventListener("click", toggleMenu);
+            document.getElementById("drawerClose").addEventListener("click", toggleMenu);
+            document.querySelectorAll(".mobile-drawer a").forEach(link => link.addEventListener("click", toggleMenu));
+
+            // Luxury Button Ripple & Magnetic Effect
+            document.querySelectorAll(".btn-luxury").forEach(btn => {
+                btn.addEventListener("click", function (e) {
+                    let rect = btn.getBoundingClientRect();
+                    let ripple = document.createElement("span");
+                    let size = Math.max(rect.width, rect.height);
+                    ripple.style.cssText = `position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);width:${size}px;height:${size}px;left:${e.clientX - rect.left - size/2}px;top:${e.clientY - rect.top - size/2}px;transform:scale(0);animation:rippleAnim 0.6s ease-out forwards;pointer-events:none;`;
+                    btn.style.position = "relative"; btn.style.overflow = "hidden";
+                    btn.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 600);
+                });
+                btn.addEventListener("mousemove", function (e) {
+                    const rect = btn.getBoundingClientRect();
+                    const x = (e.clientX - rect.left - rect.width/2) * 0.15;
+                    const y = (e.clientY - rect.top - rect.height/2) * 0.15;
+                    btn.style.transform = `translate(${x}px, ${y}px)`;
+                });
+                btn.addEventListener("mouseleave", function () { btn.style.transform = ""; });
+            });
+
+            // 3D Tilt Cards
+            document.querySelectorAll(".tilt-card").forEach(card => {
+                card.addEventListener("mousemove", function (e) {
+                    const rect = card.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width - 0.5;
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+                    card.style.transform = `perspective(900px) rotateX(${-y * 12}deg) rotateY(${x * 12}deg) translateY(-6px)`;
+                });
+                card.addEventListener("mouseleave", function () { card.style.transform = ""; });
+            });
+        });
+    </script>
+</body>
+</html>
