@@ -42,12 +42,14 @@
 
         /* ===== SECTION UTILITIES ===== */
         .section { padding: 80px 0; position: relative; }
+        @media (max-width: 575.98px) { .section { padding: 50px 0; } }
+        
         .section-alt { background: var(--pastel-blue); }
         .section-eyebrow {
             display: inline-block; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
             color: var(--gold); font-weight: 700; margin-bottom: 10px;
         }
-        .section-title { font-size: clamp(1.8rem, 5vw, 2.6rem); margin-bottom: 20px; }
+        .section-title { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 20px; }
         .section-divider { width: 70px; height: 3px; margin: 0 auto; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 4px; transition: width 1s var(--ease); }
         .section-divider.draw { width: 100px; }
 
@@ -81,6 +83,10 @@
         #backToTop.show { opacity: 1; visibility: visible; transform: translateY(0); }
         #backToTop:hover { background: var(--gold); color: var(--navy-deep); }
 
+        @media (max-width: 575.98px) {
+            #backToTop { left: 15px; bottom: 15px; width: 40px; height: 40px; font-size: 0.8rem; }
+        }
+
         .floating-actions { 
             position: fixed; right: 20px; bottom: 20px; 
             display: flex; flex-direction: column; gap: 14px; z-index: 999; 
@@ -93,6 +99,11 @@
         .float-btn:hover { transform: scale(1.1); }
         .float-whatsapp { background: #25D366; }
         .float-call { background: var(--navy-deep); }
+
+        @media (max-width: 575.98px) {
+            .floating-actions { right: 15px; bottom: 15px; gap: 10px; }
+            .float-btn { width: 45px; height: 45px; font-size: 1.1rem; }
+        }
 
         /* ===== NAVBAR ===== */
         .navbar-glass {
@@ -124,6 +135,12 @@
         .hamburger.active span:nth-child(2) { opacity: 0; }
         .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -9px); }
 
+        @media (max-width: 991.98px) {
+            .nav-links, .nav-actions .nav-call-btn { display: none; }
+            .hamburger { display: flex; }
+            .nav-actions { display: flex; align-items: center; gap: 15px; }
+        }
+
         /* Mobile Drawer */
         .mobile-drawer { 
             position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; 
@@ -143,6 +160,8 @@
             background: linear-gradient(135deg, var(--navy-deep), var(--navy-soft));
             color: var(--text-light); text-align: center; position: relative; overflow: hidden;
         }
+        @media (max-width: 576px) { .page-hero { padding-top: 100px; padding-bottom: 40px; } }
+
         .page-hero h1 { color: #fff; font-size: clamp(2rem, 6vw, 3.5rem); margin-bottom: 10px; }
         .page-hero p { color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto; padding: 0 15px;}
         .page-hero .hero-shape { position: absolute; border-radius: 50%; background: rgba(201,162,75,0.2); filter: blur(50px); z-index: 1; }
@@ -154,6 +173,8 @@
             background: var(--white); border-radius: var(--radius-lg); padding: 40px;
             box-shadow: var(--shadow-soft); height: 100%;
         }
+        @media (max-width: 575.98px) { .contact-form-wrap { padding: 25px; } }
+
         .form-control, .form-select {
             border-radius: var(--radius-sm); border: 1px solid #e0e0e0; padding: 12px 16px;
             font-family: "Times New Roman", Times, serif; transition: all .3s var(--ease);
@@ -182,33 +203,14 @@
 
         /* ===== FOOTER ===== */
         .site-footer { background: #0A1420; color: rgba(255,255,255,0.7); padding: 50px 0 20px; }
+        @media (max-width: 575.98px) { .site-footer { padding: 40px 0 20px; } }
+        
         .site-footer h5 { color: var(--gold); margin-bottom: 20px; font-size: 1.1rem;}
         .footer-contact-item { display: flex; gap: 10px; margin-bottom: 10px; }
         .footer-contact-item i { color: var(--gold); width: 20px; text-align: center; margin-top: 3px;}
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 30px; padding-top: 20px; text-align: center; font-size: 0.85rem; }
-
-        /* =========================================================
-           RESPONSIVE MEDIA QUERIES
-           ========================================================= */
-        @media (max-width: 575.98px) {
-            .section { padding: 50px 0; }
-            .page-hero { padding-top: 100px; padding-bottom: 40px; }
-            .contact-form-wrap { padding: 25px; }
-            #backToTop { left: 15px; bottom: 15px; width: 40px; height: 40px; font-size: 0.8rem; }
-            .floating-actions { right: 15px; bottom: 15px; gap: 10px; }
-            .float-btn { width: 45px; height: 45px; font-size: 1.1rem; }
-        }
-
-        @media (min-width: 576px) and (max-width: 767.98px) {
-            .section { padding: 60px 0; }
-            .brand-logo { font-size: 1.2rem; }
-        }
-
-        @media (max-width: 991.98px) {
-            .nav-links, .nav-actions .nav-call-btn { display: none; }
-            .hamburger { display: flex; }
-            .nav-actions { display: flex; align-items: center; gap: 15px; }
-        }
+        .footer-social a { transition: transform .35s var(--ease), background .35s var(--ease); }
+        .footer-social a:hover { transform: translateY(-4px); background: var(--gold) !important; color: var(--navy-deep) !important; }
     </style>
 </head>
 <body>
@@ -291,7 +293,7 @@
                             <div class="contact-card tilt-card">
                                 <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
                                 <h5>Address</h5>
-                                <p>123 Main Street, Your City, India</p>
+                                <p>R6HG+V3H, Mammothiamman Street,<br>opposite to Chennai, Egattur, Tamil Nadu 603103</p>
                             </div>
                         </div>
                     </div>
@@ -300,8 +302,8 @@
                 <!-- Google Map -->
                 <div class="col-lg-8" data-aos="fade-left">
                     <div class="map-wrap">
-                        <!-- Replace src with your actual Google Maps embed link -->
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509418!2d144.9537353153167!3d-37.81627997975159!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d5df1f5a2c7%3A0x5045675218ce6e0!2sMelbourne%20VIC%2C%20Australia!5e0!3m2!1sen!2sus!4v1610000000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <!-- Updated Map to the provided location -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3890.446043009875!2d80.1751586751771!3d12.821867987458658!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2sR6HG%2BV3H%2C%20Mammothiamman%20Street%2C%20opposite%20to%20Chennai%2C%20Egattur%2C%20Tamil%20Nadu%20603103!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
 
@@ -429,7 +431,7 @@
                     <h5>Contact</h5>
                     <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-envelope"></i> <span>info@thinkinghome.com</span></div>
                     <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-phone"></i> <span>+91 00000 00000</span></div>
-                    <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-location-dot"></i> <span>123 Main St, Your City</span></div>
+                    <div class="footer-contact-item" style="font-size: 0.95rem;"><i class="fa-solid fa-location-dot"></i> <span>R6HG+V3H, Mammothiamman Street, Egattur, Tamil Nadu 603103</span></div>
                 </div>
                 <div class="col-md-4 col-lg-3">
                     <h5>Find Us</h5>
